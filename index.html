@@ -2,183 +2,212 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Mount Baker Halloween Survey 🎃</title>
 <style>
-body{
-  font-family:"Poppins",sans-serif;
-  background:#0b0011 url('https://images.unsplash.com/photo-1604079628040-bb61cd9dbe4f?auto=format&fit=crop&w=1920&q=80') center/cover fixed;
-  color:#f5e6ff;text-align:center;margin:0;padding:0;overflow-x:hidden;
-}
-form{
-  background:rgba(0,0,0,.85);margin:2em auto;padding:2em;border-radius:15px;
-  width:90%;max-width:500px;box-shadow:0 0 30px #b35cff;
-}
-h1{color:#c77dff;text-shadow:2px 2px 10px #b35cff;}
-label{display:block;margin-top:1em;font-weight:bold;color:#e0b3ff;}
-select,textarea,input,button{
-  width:100%;margin-top:.5em;padding:.6em;border-radius:8px;border:none;font-size:1em;
-}
-select,textarea,input{background:#1a001f;color:#fff;}
-button{
-  background:#b35cff;color:#fff;font-weight:bold;cursor:pointer;
-}
-button:hover{background:#d580ff;}
-
-#reaction{
-  position:fixed;bottom:10%;right:5%;width:200px;height:200px;border-radius:10px;
-  overflow:hidden;box-shadow:0 0 20px rgba(0,0,0,0.7);
-  opacity:0;transition:opacity .4s ease;z-index:100;
-}
-#reaction.show{opacity:1;}
-#reaction img{width:100%;height:100%;object-fit:cover;border-radius:10px;}
-#fadeOverlay{
-  position:fixed;inset:0;background:black;opacity:0;pointer-events:none;z-index:99;
-  transition:opacity .7s ease;
-}
-@keyframes shake{
-  0%,100%{transform:translate(0,0);}
-  20%{transform:translate(-10px,0);}
-  40%{transform:translate(10px,0);}
-  60%{transform:translate(-6px,0);}
-  80%{transform:translate(6px,0);}
-}
-.shake{animation:shake .4s;}
+  body {
+    font-family: "Poppins", sans-serif;
+    margin: 0;
+    padding: 0;
+    text-align: center;
+    color: #eaffea;
+    background: #000;
+    overflow-x: hidden;
+    overflow-y: auto;
+  }
+  h1 {
+    color: #8aff8a;
+    text-shadow: 0 0 20px #32ff32, 0 0 40px #00ff99;
+    margin-top: 1.5em;
+  }
+  form {
+    background: rgba(0, 0, 0, 0.8);
+    margin: 2em auto;
+    padding: 2em;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 0 30px #00ff99;
+    position: relative;
+    z-index: 3;
+  }
+  label {
+    display: block;
+    margin-top: 1em;
+    font-weight: bold;
+    color: #b3ffb3;
+  }
+  select, textarea, input, button {
+    width: 100%;
+    margin-top: 0.5em;
+    padding: 0.6em;
+    border-radius: 8px;
+    border: none;
+    font-size: 1em;
+  }
+  select, textarea, input { background: #002200; color: #ccffcc; }
+  button {
+    background: #00cc66;
+    color: #fff;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.2s ease, transform 0.1s ease;
+  }
+  button:hover { background: #00ff99; transform: scale(1.05); }
+  #reaction {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    width: 120px;
+    height: 120px;
+    transform: translate(-50%, -50%) scale(0.3);
+    opacity: 0;
+    transition: all 0.4s ease;
+    pointer-events: none;
+    z-index: 5;
+  }
+  #reaction.show { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+  @keyframes shake {
+    0%,100% { transform: translate(-50%, -50%) rotate(0deg); }
+    25% { transform: translate(-52%, -50%) rotate(-5deg); }
+    50% { transform: translate(-48%, -50%) rotate(5deg); }
+    75% { transform: translate(-51%, -50%) rotate(-3deg); }
+  }
+  .shake { animation: shake 0.4s; }
+  .fog {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(0,255,128,0.15) 0%, rgba(0,0,0,0.8) 70%);
+    filter: blur(120px);
+    animation: fogmove 60s infinite linear;
+    z-index: 1;
+    opacity: 0.7;
+  }
+  .fog2 { animation: fogmove2 90s infinite linear; opacity: 0.5; }
+  @keyframes fogmove { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+  @keyframes fogmove2 { from { transform: translateX(-50%); } to { transform: translateX(0); } }
+  @keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 24%, 55% { opacity: 0.3; }
+  }
+  .flicker { animation: flicker 5s infinite; }
+  @media (max-width: 600px) { #reaction { width: 80px; height: 80px; } }
 </style>
 </head>
 <body>
-<h1>💜 Mount Baker Secondary Halloween Survey 2025 👻</h1>
+
+<div class="fog flicker"></div>
+<div class="fog fog2"></div>
+
+<h1>💚 Mount Baker Secondary Halloween Survey 2025 👻</h1>
 
 <form id="surveyForm">
   <label>Your Name (optional)</label>
   <input type="text" name="name" placeholder="Enter your name if you’d like">
 
-  <label>Costume Contest rating</label>
+  <label>Costume Contest</label>
   <select name="costumeContest" required>
     <option value="">Select</option>
-    <option data-positive>Awesome</option>
-    <option data-positive>Good</option>
-    <option>Okay</option>
-    <option data-negative>Needs Improvement</option>
+    <option data-type="positive">Awesome</option>
+    <option data-type="positive">Good</option>
+    <option data-type="neutral">Okay</option>
+    <option data-type="negative">Needs Improvement</option>
+    <option data-type="none">Didn’t attend</option>
   </select>
 
-  <label>Night in the Museum rating</label>
+  <label>Night in the Museum</label>
   <select name="nightInMuseum" required>
     <option value="">Select</option>
-    <option data-positive>Spooktacular!</option>
-    <option data-positive>Fun</option>
-    <option>Okay</option>
-    <option data-negative>Needs more exhibits</option>
+    <option data-type="positive">Spooktacular!</option>
+    <option data-type="positive">Fun</option>
+    <option data-type="neutral">Okay</option>
+    <option data-type="negative">Needs more exhibits</option>
+    <option data-type="none">Didn’t attend</option>
   </select>
 
-  <label>Kahoot rating</label>
+  <label>Kahoot</label>
   <select name="kahoot" required>
     <option value="">Select</option>
-    <option data-positive>Awesome</option>
-    <option data-positive>Fun</option>
-    <option>Okay</option>
-    <option data-negative>Could be better</option>
+    <option data-type="positive">Awesome</option>
+    <option data-type="positive">Fun</option>
+    <option data-type="neutral">Okay</option>
+    <option data-type="negative">Could be better</option>
+    <option data-type="none">Didn’t attend</option>
   </select>
 
-  <label>Scavenger Hunt rating</label>
+  <label>Scavenger Hunt</label>
   <select name="scavengerHunt" required>
     <option value="">Select</option>
-    <option data-positive>Exciting</option>
-    <option data-positive>Good</option>
-    <option>Okay</option>
-    <option data-negative>Needs improvement</option>
+    <option data-type="positive">Exciting</option>
+    <option data-type="positive">Good</option>
+    <option data-type="neutral">Okay</option>
+    <option data-type="negative">Needs improvement</option>
+    <option data-type="none">Didn’t attend</option>
   </select>
 
-  <label>Movie rating</label>
+  <label>Movie</label>
   <select name="movie" required>
     <option value="">Select</option>
-    <option data-positive>Perfect choice!</option>
-    <option data-positive>Good</option>
-    <option>Okay</option>
-    <option data-negative>Needs better movie</option>
+    <option data-type="positive">Perfect choice!</option>
+    <option data-type="positive">Good</option>
+    <option data-type="neutral">Okay</option>
+    <option data-type="negative">Needs better movie</option>
+    <option data-type="none">Didn’t attend</option>
   </select>
 
-  <label>Meme Bingo rating</label>
+  <label>Meme Bingo</label>
   <select name="memeBingo" required>
     <option value="">Select</option>
-    <option data-positive>Hilarious!</option>
-    <option data-positive>Fun</option>
-    <option>Okay</option>
-    <option data-negative>Needs better memes</option>
+    <option data-type="positive">Hilarious!</option>
+    <option data-type="positive">Fun</option>
+    <option data-type="neutral">Okay</option>
+    <option data-type="negative">Needs better memes</option>
+    <option data-type="none">Didn’t attend</option>
   </select>
 
   <label>Any comments or spooky stories?</label>
   <textarea name="comments" rows="3" placeholder="Type here..."></textarea>
 
-  <button type="submit">Submit 💜</button>
+  <button type="submit">Submit 💚</button>
   <p id="successMsg" style="display:none;color:#80ffea;font-weight:bold;">Thanks for your feedback! 👻</p>
 </form>
 
-<!-- Mr Incredible popup -->
-<div id="reaction"><img src="" alt="reaction"></div>
-<div id="fadeOverlay"></div>
-
-<audio id="boom" src="https://cdn.pixabay.com/download/audio/2022/03/15/audio_545b78406a.mp3?filename=explosion-110095.mp3"></audio>
+<img id="reaction" src="smile.png" alt="reaction emoji">
 
 <script>
-const SCRIPT_URL = "YOUR_WEB_APP_URL_HERE";
-const form = document.getElementById('surveyForm');
-const success = document.getElementById('successMsg');
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPgCOrlbWrnrYAFk3EVjKsFImzBFWSfbJWHDvFKoq7M4z2X1b0EIfD8kZaTTOuuUup/exec"; // 👈 Replace this with your actual Google Apps Script Web App URL
+
 const reaction = document.getElementById('reaction');
-const img = reaction.querySelector('img');
-const fade = document.getElementById('fadeOverlay');
-const boom = document.getElementById('boom');
+const emojiImages = { positive: "smile.png", neutral: "neutral.png", negative: "scared.png" };
 
-// Reliable hosted images
-const happy = "https://cdn.pixabay.com/photo/2023/01/22/21/44/mr-incredible-7738817_1280.png";
-const uncanny = "https://cdn.pixabay.com/photo/2023/02/03/15/13/mr-incredible-uncanny-7767980_1280.png";
-
-// Reaction animation
-function showReaction(type) {
-  img.src = type === "positive" ? happy : uncanny;
-  reaction.classList.add("show");
-  if (type === "negative") {
-    fade.style.opacity = 0.8;
-    document.body.classList.add("shake");
-    boom.currentTime = 0;
-    boom.play().catch(()=>{});
-    setTimeout(() => fade.style.opacity = 0, 700);
-    setTimeout(() => document.body.classList.remove("shake"), 400);
-  }
-  setTimeout(() => reaction.classList.remove("show"), 2000);
-}
-
-form.querySelectorAll('select').forEach(sel => {
-  sel.addEventListener('change', () => {
-    const opt = sel.selectedOptions[0];
-    if (opt.dataset.positive) showReaction("positive");
-    else if (opt.dataset.negative) showReaction("negative");
+document.querySelectorAll('select').forEach(select => {
+  select.addEventListener('change', () => {
+    const type = select.selectedOptions[0].dataset.type || "neutral";
+    if (type === "none") return;
+    reaction.src = emojiImages[type];
+    reaction.classList.add('show');
+    if (type === "negative") reaction.classList.add('shake');
+    setTimeout(() => { reaction.classList.remove('show'); reaction.classList.remove('shake'); }, 1200);
   });
 });
 
-if (localStorage.getItem('mbss_submitted')) {
-  form.innerHTML = "<h2>💜 You already submitted. Thanks!</h2>";
-}
-
-form.addEventListener('submit', e => {
+document.getElementById('surveyForm').addEventListener('submit', e => {
   e.preventDefault();
-  const data = Object.fromEntries(new FormData(form).entries());
-  fetch(SCRIPT_URL, {
+  const formData = Object.fromEntries(new FormData(e.target).entries());
+  fetch(GOOGLE_SCRIPT_URL, {
     method: 'POST',
     mode: 'no-cors',
     headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify(data)
-  })
-  .then(() => {
-    success.style.display = 'block';
-    localStorage.setItem('mbss_submitted', 'true');
-    form.reset();
-    setTimeout(() => {
-      form.innerHTML = "<h2>💜 You already submitted. Thanks!</h2>";
-    }, 1500);
-  })
-  .catch(() => alert('Error submitting form'));
+    body: JSON.stringify(formData)
+  }).then(() => {
+    document.getElementById('successMsg').style.display = 'block';
+    e.target.reset();
+  }).catch(err => alert("Error sending data: " + err));
 });
 </script>
+
 </body>
 </html>
