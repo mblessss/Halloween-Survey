@@ -189,12 +189,27 @@
 const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPgCOrlbWrnrYAFk3EVjKsFImzBFWSfbJWHDvFKoq7M4z2X1b0EIfD8kZaTTOuuUup/exec";
 
 const reaction = document.getElementById('reaction');
+const form = document.getElementById('surveyForm');
+const successMsg = document.getElementById('successMsg');
+
 const emojiImages = {
   positive: "smile.png",
   neutral: "neutral.png",
   negative: "scared.png"
 };
 
+// 🟢 Check if user already submitted
+if (localStorage.getItem('halloweenSurveySubmitted')) {
+  form.style.display = 'none';
+  const already = document.createElement('p');
+  already.textContent = "🎃 You’ve already submitted this survey. Thanks!";
+  already.style.color = "#80ff80";
+  already.style.fontWeight = "bold";
+  already.style.marginTop = "2em";
+  document.body.appendChild(already);
+}
+
+// ✅ Safe emoji reaction loader
 function safeSetReaction(src, fallback) {
   const img = new Image();
   img.onload = () => reaction.src = src;
@@ -202,22 +217,19 @@ function safeSetReaction(src, fallback) {
   img.src = src;
 }
 
+// ✅ Show emoji reactions for event selects only
 document.querySelectorAll('select').forEach(select => {
-  // Ignore grade dropdown
-  if (select.name === "grade") return;
+  if (select.name === "grade") return; // Skip grade dropdown
 
   select.addEventListener('change', () => {
     const type = select.selectedOptions[0].dataset.type || "neutral";
     if (type === "none" || type === undefined) return;
-
     safeSetReaction(
       emojiImages[type],
       "https://em-content.zobj.net/source/apple/354/smiling-face-with-halo_1f607.png"
     );
-
     reaction.classList.add('show');
     if (type === "negative") reaction.classList.add('shake');
-
     setTimeout(() => {
       reaction.classList.remove('show');
       reaction.classList.remove('shake');
@@ -225,7 +237,8 @@ document.querySelectorAll('select').forEach(select => {
   });
 });
 
-document.getElementById('surveyForm').addEventListener('submit', e => {
+// ✅ Handle form submission
+form.addEventListener('submit', e => {
   e.preventDefault();
   const formData = Object.fromEntries(new FormData(e.target).entries());
   fetch(GOOGLE_SCRIPT_URL, {
@@ -234,8 +247,10 @@ document.getElementById('surveyForm').addEventListener('submit', e => {
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify(formData)
   }).then(() => {
-    document.getElementById('successMsg').style.display = 'block';
+    successMsg.style.display = 'block';
     e.target.reset();
+    localStorage.setItem('halloweenSurveySubmitted', 'true'); // 🔒 Prevent another submission
+    setTimeout(() => location.reload(), 1500); // refresh to show "already submitted" message
   }).catch(err => alert("Error sending data: " + err));
 });
 </script>
