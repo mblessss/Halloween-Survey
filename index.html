@@ -12,13 +12,14 @@
       text-align: center;
       margin: 0;
       padding: 0;
-      background-image: url('https://i.imgur.com/7A3k9zH.png');
+      background-image: url('https://images.unsplash.com/photo-1508057198894-247b23fe5ade?auto=format&fit=crop&w=1740&q=80');
       background-size: cover;
+      background-position: center;
       background-attachment: fixed;
     }
     h1 { color: #ff7518; margin-top: 1.2em; text-shadow: 2px 2px 4px black; }
     form {
-      background: rgba(0,0,0,0.7);
+      background: rgba(0,0,0,0.8);
       margin: 2em auto;
       padding: 2em;
       border-radius: 15px;
@@ -27,7 +28,7 @@
       box-shadow: 0 0 15px #ff7518;
     }
     label { display: block; margin-top: 1em; font-weight: bold; color: #ffa94d; }
-    select, textarea, button {
+    select, textarea, input, button {
       width: 100%;
       margin-top: 0.5em;
       padding: 0.6em;
@@ -35,7 +36,7 @@
       border: none;
       font-size: 1em;
     }
-    select, textarea { background: #1c1c1c; color: #fff; }
+    select, textarea, input { background: #1c1c1c; color: #fff; }
     button {
       background: #ff7518; color: black; font-weight: bold; cursor: pointer;
       transition: transform 0.2s ease;
@@ -52,6 +53,9 @@
 <body>
   <h1>🎃 Mount Baker Secondary Halloween Survey 2025 👻</h1>
   <form id="surveyForm">
+    <label>Your Name (optional)</label>
+    <input type="text" name="name" placeholder="Enter your name if you’d like" />
+
     <label>Costume Contest rating</label>
     <select name="costumeContest" required>
       <option value="">Select</option>
@@ -114,7 +118,7 @@
   </form>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxxpZ4MATyR3UD5hjl671us3EL-PdLEZ5X4C8agufxp8P1fdY9WxEWIehB3LwJLWUj0/exec"; // replace with your Apps Script Web App URL
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPgCOrlbWrnrYAFk3EVjKsFImzBFWSfbJWHDvFKoq7M4z2X1b0EIfD8kZaTTOuuUup/exec"; // replace with your Apps Script Web App URL
     const form = document.getElementById('surveyForm');
     const successMsg = document.getElementById('successMsg');
 
