@@ -13,7 +13,6 @@
     color: #eaffea;
     background: #000;
     overflow-x: hidden;
-    overflow-y: auto;
   }
   h1 {
     color: #8aff8a;
@@ -108,6 +107,15 @@
   <label>Your Name (optional)</label>
   <input type="text" name="name" placeholder="Enter your name if you’d like">
 
+  <label>Grade</label>
+  <select name="grade" required>
+    <option value="">Select your grade</option>
+    <option value="10">Grade 10</option>
+    <option value="11">Grade 11</option>
+    <option value="12">Grade 12</option>
+    <option value="Teacher">Teacher</option>
+  </select>
+
   <label>Costume Contest</label>
   <select name="costumeContest" required>
     <option value="">Select</option>
@@ -178,19 +186,42 @@
 <img id="reaction" src="smile.png" alt="reaction emoji">
 
 <script>
-const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPgCOrlbWrnrYAFk3EVjKsFImzBFWSfbJWHDvFKoq7M4z2X1b0EIfD8kZaTTOuuUup/exec"; // 👈 Replace this with your actual Google Apps Script Web App URL
+const GOOGLE_SCRIPT_URL = "https://script.google.com/macros/s/AKfycbyPgCOrlbWrnrYAFk3EVjKsFImzBFWSfbJWHDvFKoq7M4z2X1b0EIfD8kZaTTOuuUup/exec";
 
 const reaction = document.getElementById('reaction');
-const emojiImages = { positive: "smile.png", neutral: "neutral.png", negative: "scared.png" };
+const emojiImages = {
+  positive: "smile.png",
+  neutral: "neutral.png",
+  negative: "scared.png"
+};
+
+function safeSetReaction(src, fallback) {
+  const img = new Image();
+  img.onload = () => reaction.src = src;
+  img.onerror = () => reaction.src = fallback;
+  img.src = src;
+}
 
 document.querySelectorAll('select').forEach(select => {
+  // Ignore grade dropdown
+  if (select.name === "grade") return;
+
   select.addEventListener('change', () => {
     const type = select.selectedOptions[0].dataset.type || "neutral";
-    if (type === "none") return;
-    reaction.src = emojiImages[type];
+    if (type === "none" || type === undefined) return;
+
+    safeSetReaction(
+      emojiImages[type],
+      "https://em-content.zobj.net/source/apple/354/smiling-face-with-halo_1f607.png"
+    );
+
     reaction.classList.add('show');
     if (type === "negative") reaction.classList.add('shake');
-    setTimeout(() => { reaction.classList.remove('show'); reaction.classList.remove('shake'); }, 1200);
+
+    setTimeout(() => {
+      reaction.classList.remove('show');
+      reaction.classList.remove('shake');
+    }, 1200);
   });
 });
 
@@ -208,6 +239,7 @@ document.getElementById('surveyForm').addEventListener('submit', e => {
   }).catch(err => alert("Error sending data: " + err));
 });
 </script>
+
 
 </body>
 </html>
