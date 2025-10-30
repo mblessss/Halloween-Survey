@@ -61,31 +61,49 @@
       <option>Needs Improvement</option>
     </select>
 
-    <label>Haunted House rating</label>
-    <select name="hauntedHouse" required>
+    <label>Night in the Museum rating</label>
+    <select name="nightInMuseum" required>
       <option value="">Select</option>
-      <option>Terrifying!</option>
-      <option>Pretty spooky</option>
-      <option>Not bad</option>
-      <option>Could be scarier</option>
-    </select>
-
-    <label>Dance rating</label>
-    <select name="dance" required>
-      <option value="">Select</option>
-      <option>Epic</option>
+      <option>Spooktacular!</option>
       <option>Fun</option>
       <option>Okay</option>
-      <option>Needs better music</option>
+      <option>Needs more exhibits</option>
     </select>
 
-    <label>Food Stalls rating</label>
-    <select name="foodStalls" required>
+    <label>Kahoot rating</label>
+    <select name="kahoot" required>
       <option value="">Select</option>
-      <option>Delicious</option>
+      <option>Awesome</option>
+      <option>Fun</option>
+      <option>Okay</option>
+      <option>Could be better</option>
+    </select>
+
+    <label>Scavenger Hunt rating</label>
+    <select name="scavengerHunt" required>
+      <option value="">Select</option>
+      <option>Exciting</option>
       <option>Good</option>
-      <option>Average</option>
-      <option>Could improve</option>
+      <option>Okay</option>
+      <option>Needs improvement</option>
+    </select>
+
+    <label>Movie rating</label>
+    <select name="movie" required>
+      <option value="">Select</option>
+      <option>Perfect choice!</option>
+      <option>Good</option>
+      <option>Okay</option>
+      <option>Needs better movie</option>
+    </select>
+
+    <label>Meme Bingo rating</label>
+    <select name="memeBingo" required>
+      <option value="">Select</option>
+      <option>Hilarious!</option>
+      <option>Fun</option>
+      <option>Okay</option>
+      <option>Needs better memes</option>
     </select>
 
     <label>Any comments or spooky stories?</label>
@@ -96,11 +114,10 @@
   </form>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxvRGrF5ZjdvLajw_DiuIZQirFyvEK-xSwNiq65HHbWqp-9wJapoeuqQK23n_vHOlIz/exec"; // replace with your Apps Script Web App URL
+    const SCRIPT_URL = "YOUR_WEB_APP_URL_HERE"; // replace with your Apps Script Web App URL
     const form = document.getElementById('surveyForm');
     const successMsg = document.getElementById('successMsg');
 
-    // prevent multiple submissions per browser
     if (localStorage.getItem('mbss_submitted')) {
       form.innerHTML = "<h2>🎃 You already submitted. Thanks!</h2>";
     }
